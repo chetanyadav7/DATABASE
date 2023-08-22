@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <string.h>
+
+// Define a structure to represent a student
+struct Student {
+    char name[50];
+    char student_id[10];
+    char phone_number[15];
+    char usn[15];
+    char dob[12];
+};
+
+int main() {
+    struct Student database[100];  // Assuming a maximum of 100 students
+    int numStudents = 0;
+
+    while (1) {
+        // Display menu
+        printf("\nStudent Database Management System\n");
+        printf("1. Add Student\n");
+        printf("2. Remove Student\n");
+        printf("3. Display All Students\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+
+        int choice;
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: {
+                // Add a student
+                struct Student student;
+                printf("Enter Student Name: ");
+                scanf("%s", student.name);
+
+                printf("Enter Student ID: ");
+                scanf("%s", student.student_id);
+
+                printf("Enter Phone Number: ");
+                scanf("%s", student.phone_number);
+
+                printf("Enter USN: ");
+                scanf("%s", student.usn);
+
+                printf("Enter Date of Birth (YYYY-MM-DD): ");
+                scanf("%s", student.dob);
+
+                database[numStudents++] = student;
+                printf("Student added successfully.\n");
+                break;
+            }
+            case 2: {
+                // Remove a student
+                if (numStudents == 0) {
+                    printf("No students in the database.\n");
+                } else {
+                    char studentId[10];
+                    printf("Enter Student ID to remove: ");
+                    scanf("%s", studentId);
+
+                    int found = 0;
+                    for (int i = 0; i < numStudents; i++) {
+                        if (strcmp(database[i].student_id, studentId) == 0) {
+                            for (int j = i; j < numStudents - 1; j++) {
+                                database[j] = database[j + 1];
+                            }
+                            numStudents--;
+                            printf("Student with ID %s removed successfully.\n", studentId);
+                            found = 1;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        printf("Student with ID %s not found.\n", studentId);
+                    }
+                }
+                break;
+            }
+            case 3: {
+                // Display all students
+                if (numStudents == 0) {
+                    printf("No students in the database.\n");
+                } else {
+                    printf("\nList of all students:\n");
+                    for (int i = 0; i < numStudents; i++) {
+                        printf("Name: %s, ID: %s, Phone: %s, USN: %s, DOB: %s\n",
+                               database[i].name, database[i].student_id, database[i].phone_number,
+                               database[i].usn, database[i].dob);
+                    }
+                }
+                break;
+            }
+            case 4:
+                // Exit the program
+                printf("Exiting program.\n");
+                return 0;
+            default:
+                // Invalid menu choice
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
